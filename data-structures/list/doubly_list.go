@@ -29,7 +29,7 @@ func NewDllNode(value int) *DllNode {
 	return &DllNode{Value: value}
 }
 
-// ######################################### Util Functions #######################################
+// #################################### DLL Useful Functions (utilities) #######################################
 
 func (l *DLL) IsEmpty() bool {
 	return l.Length == 0
@@ -173,4 +173,44 @@ func (l *DLL) Remove(value int) error {
 	}
 
 	return nil
+}
+
+// ######################################### DLL Interview Questions #######################################
+
+/*
+	Reversing a DLL in iterative manner
+*/
+func (l *DLL) ReverseIterative() {
+	var temp = l.Head
+	var p, q, r *DllNode
+	for r = l.Head; r != nil; {
+		p = q
+		q = r
+		r = r.Next
+		q.Next, q.Prev = p, r
+	}
+	l.Head, l.Tail = q, temp
+}
+
+/*
+	Reversing a DLL using recursion
+*/
+func (l *DLL) RecursiveReverse(n *DllNode) *DllNode {
+	if l.Length <= 1 {
+		return l.Head
+	}
+
+	if n.Next == nil {
+		l.Head = n
+		return n
+	}
+
+	curr := l.RecursiveReverse(n.Next)
+	curr.Next = n
+	if n.Prev == nil {
+		n.Next = nil
+		l.Tail = n
+	}
+	n.Prev = curr
+	return n
 }
