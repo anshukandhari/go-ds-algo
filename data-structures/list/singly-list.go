@@ -150,3 +150,71 @@ func (l *SLL) Remove(value int) error {
 
 	return nil
 }
+
+// ######################################### SLL Interview Questions #######################################
+/*
+	Reversing a DLL in iterative manner
+*/
+func (l *SLL) ReverseIterative() {
+	var temp = l.Head
+	var p, q, r *SllNode
+	for r = l.Head; r != nil; {
+		p = q
+		q = r
+		r = r.Next
+		q.Next = p
+	}
+	l.Head, l.Tail = q, temp
+}
+
+/*
+	Reversing a DLL using recursion
+*/
+func (l *SLL) RecursiveReverse(n *SllNode) *SllNode {
+	if l.Length <= 1 {
+		return l.Head
+	}
+
+	if n.Next == nil {
+		l.Tail = l.Head
+		l.Head = n
+		return n
+	}
+
+	curr := l.RecursiveReverse(n.Next)
+	curr.Next = n
+	if n == l.Tail {
+		n.Next = nil
+	}
+	return n
+}
+
+func (l *SLL) ReverseInGroups(start *SllNode, k int) *SllNode {
+	if l.Length <= 1 || k <= 1 {
+		return l.Head
+	}
+
+	if start == nil {
+		return start
+	}
+
+	var p, q, r *SllNode
+	i := 0
+	for r = start; i < k; i++ {
+		p = q
+		q = r
+		r = r.Next
+		q.Next = p
+		if r == nil {
+			l.Tail = start
+			break
+		}
+	}
+
+	if start == l.Head {
+		l.Head = q
+	}
+
+	start.Next = l.ReverseInGroups(r, k)
+	return q
+}
