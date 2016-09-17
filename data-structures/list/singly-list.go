@@ -189,6 +189,17 @@ func (l *SLL) RecursiveReverse(n *SllNode) *SllNode {
 	return n
 }
 
+/*
+	http://www.geeksforgeeks.org/reverse-a-list-in-groups-of-given-size/
+
+	func ReverseInGroups
+	1. Save the start node
+	2. Go to the kth SllNode in iteration, reverse every pair in iteration
+	3. Return Kth node
+		a. If the start was the head node, then make kth SllNode, the new Head
+		b. If the iteration reached the end of the list then update Tail & make it point to the saved start
+	4. start.next = ReverseInGroups(K+1)
+*/
 func (l *SLL) ReverseInGroups(start *SllNode, k int) *SllNode {
 	if l.Length <= 1 || k <= 1 {
 		return l.Head
